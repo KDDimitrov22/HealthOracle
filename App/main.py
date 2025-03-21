@@ -3,7 +3,4 @@ import time
 
 
 functions.fullscreen()
-functions.centerText("Hello World!","bold cyan")
-time.sleep(5)
-functions.clear()
-functions.centerText("All clear!","")  
+functions.Menu(["Option 1", "Option 2", "Option 3"]).show_menu()
