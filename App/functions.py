@@ -11,5 +11,8 @@ def clear():
 def fullscreen():
     pyautogui.hotkey('F11')
 
-def centerText(text):
-    console.print(text, justify="center")
+def centerText(text, color): # note: 
+    if color:
+        console.print(f"[{color}]{text}[/{color}]", justify="center")
+    else:
+        console.print(text, justify="center")
