@@ -42,7 +42,7 @@ acc_test_log = round(logreg.score(test, target_test) * 100, 2)
 print(acc_test_log)
 
 print("Saving Model!")
-pickle_out = open("model1.pkl","wb")
+pickle_out = open("model.pkl","wb")
 pickle.dump(logreg, pickle_out)
 pickle_out.close()
 print("Model Saved!")
