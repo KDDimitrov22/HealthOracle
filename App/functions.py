@@ -1,50 +1,69 @@
 import os
 import pyautogui
-from rich.console import Console
-from rich.text import Text
+import tkinter as tk
+from tkinter import Canvas
 import readchar
+from Model.model import predictCardiovascular
 
-console=Console() # so you don't have to create a new console object every time you run a function using the "rich" library
+# Function to open a new window
+def open_new_window():
+    new_window = tk.Toplevel()
+    new_window.title("New Page")
+    new_window.geometry("400x300")
+    tk.Label(new_window, text="Welcome to the new page!", font=("Arial", 16)).pack(pady=20)
 
-def clear():
-    os.system('cls' if os.name=='nt' else 'clear')
-
-def fullscreen():
-    pyautogui.hotkey('F11')
-
-def centerText(text, color): # note: leave the 'color' argument's value blank if you want the text to be the normal white
-    if color:
-        console.print(f"[{color}]{text}[/{color}]", justify="center")
-    else:
-        console.print(text, justify="center")
-
+# Menu class using Tkinter
 class Menu:
-    def __init__(self, options):
-        self.options=options
-        self.selected=0
+    def __init__(self, root, options):
+        self.root = root
+        self.options = options
+        self.selected = 0
+        self.labels = []
 
-    def show_menu(self):
-        while True:
-            clear()
-            print('\n' * 5)
-            for i,option in enumerate(self.options):
-                if i == self.selected:
-                    centerText(option+'\n',"bold cyan")
-                else:
-                    centerText(option+'\n',"")
+        self.title_label = tk.Label(root, text="Health Oracle", font=("Arial", 28, "bold"), fg="white", bg="#5eaf5e")
+        self.title_label.place(relx=0.5, y=100, anchor="center")
 
-            key=readchar.readkey()
+        self.frame = tk.Frame(root)
+        self.frame.pack(expand=True)
 
-            if key == readchar.key.UP:
-                if self.selected == 0:
-                    self.selected=len(self.options)-1
-                else:
-                    self.selected-=1
-            elif key == readchar.key.DOWN:
-                if self.selected == len(self.options)-1:
-                    self.selected=0
-                else:
-                    self.selected+=1
-            elif key == "\r": # 'enter' key
-                centerText(f"Key pressed: {self.selected}", "pink")
-                break
+        self.canvas = Canvas(root, width=1280, height=960)
+        self.canvas.pack(fill="both", expand=True)
+
+        for i in range(960):
+            color = f"#5e{hex(180 - i // 8)[2:].zfill(2)}5e"  # Greenish gradient
+            self.canvas.create_line(0, i, 1280, i, fill=color)
+
+        for option in options:
+            label = tk.Label(self.frame, text=option, font=("Arial", 16), pady=5)
+            label.pack()
+            self.labels.append(label)
+
+        self.update_menu()  # Make sure this function exists
+
+        root.bind("<Up>", self.up_key)
+        root.bind("<Down>", self.down_key)
+        root.bind("<Return>", self.enter_key)
+
+    def update_menu(self):  # ✅ Make sure this exists
+        for i, label in enumerate(self.labels):
+            if i == self.selected:
+                label.config(fg="cyan", font=("Arial", 16, "bold"))
+            else:
+                label.config(fg="black", font=("Arial", 16))
+
+    def up_key(self, event):
+        self.selected = (self.selected - 1) % len(self.options)
+        self.update_menu()
+
+    def down_key(self, event):
+        self.selected = (self.selected + 1) % len(self.options)
+        self.update_menu()
+
+    def enter_key(self, event):
+        if self.selected == 0:
+            open_new_window()
+        elif self.selected == 1:
+            self.root.quit()
+
+
+
