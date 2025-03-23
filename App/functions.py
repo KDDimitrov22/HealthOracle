@@ -1,12 +1,9 @@
 import os
 import tkinter as tk
-<<<<<<< HEAD
 from tkinter import Canvas
 import readchar
 from Model.models.model_cardiovascular_disease import predictCardiovascular
-=======
 from questionaire import create_new_page
->>>>>>> 8836c0176f360feea11e2bb1745b15eecd7212d6
 
 def create_menu(root):
     for widget in root.winfo_children():

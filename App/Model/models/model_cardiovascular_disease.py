@@ -1,12 +1,21 @@
-import os
 import pickle
-from sklearn.linear_model import LogisticRegression
+import pandas as pd
 
-model_path = os.path.join(os.path.dirname(__file__), "model_cardio.pkl")
-
-with open(model_path, "rb") as f:
-    model = pickle.load(f)
+model = pickle.load(open('model_cardio.pkl', 'rb'))
 
 def predictCardiovascular(age, gender, ap_hi, ap_lo, cholesterol, gluc, smoke, alco, active, bmi):
-    prediction = model.predict([[age, gender, ap_hi, ap_lo, cholesterol, gluc, smoke, alco, active, bmi]])
-    return int(prediction[0])
+    data = pd.DataFrame({
+    "age": [age],
+    "gender": [gender],
+    "ap_hi": [ap_hi],
+    "ap_lo": [ap_lo],
+    "cholesterol": [cholesterol],
+    "gluc": [gluc],
+    "smoke": [smoke],
+    "alco": [alco],
+    "active": [active],
+    "bmi": [bmi]
+    })
+
+    prediction = model.predict(data)
+    return(prediction[0])
