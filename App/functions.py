@@ -3,6 +3,9 @@ import tkinter as tk
 from questionaire import create_new_page
 
 def create_menu(root):
+    for widget in root.winfo_children():
+        widget.destroy()
+        
     root.title("Health Oracle")
     root.configure(bg="#1b964e")
     root.geometry("800x600")  # Set a larger initial window size
