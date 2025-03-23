@@ -3,7 +3,7 @@ import pyautogui
 import tkinter as tk
 from tkinter import Canvas
 import readchar
-from Model.model import predictCardiovascular
+from Model.models.model_cardiovascular_disease import predictCardiovascular
 
 # Function to open a new window
 def open_new_window():
