@@ -1,14 +1,10 @@
-import functions
-import time
 import tkinter as tk
+from functions import create_menu
 
-from functions import Menu
-
+def main():
+    root = tk.Tk()
+    create_menu(root)
+    root.mainloop()
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    root.title("HealthOracle")
-    root.geometry("1280x960")
-    root.configure(bg="#5eaf5e") 
-    menu = Menu(root, ["Start", "Exit"])
-    root.mainloop()
+    main()
